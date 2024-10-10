@@ -1,7 +1,5 @@
 import { defineConfig } from 'vite'
-import { extname, relative, resolve } from 'path'
-import { fileURLToPath } from 'node:url'
-import { glob } from 'glob'
+import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
 
@@ -16,26 +14,27 @@ export default defineConfig({
   build: {
     copyPublicDir: false,
     lib: {
+      name: 'ui-kit',
       entry: resolve(__dirname, 'lib/main.ts'),
       formats: ['es']
     },
+    cssCodeSplit: true,
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'lib/main.ts'),
+        'mantine/core': resolve(__dirname, 'lib/mantine/core.ts'),
+      },
       external: ['react', 'react/jsx-runtime'],
-      input: Object.fromEntries(
-        glob.sync('lib/**/*.{ts,tsx}', {
-          ignore: ["lib/**/*.d.ts"],
-        }).map(file => [
-          relative(
-            'lib',
-            file.slice(0, file.length - extname(file).length)
-          ),
-          fileURLToPath(new URL(file, import.meta.url))
-        ])
-      ),
       output: {
         assetFileNames: 'assets/[name][extname]',
-        entryFileNames: '[name].js',
+        entryFileNames: '[name].js'
       }
     }
-  }
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+      '~': resolve(__dirname, './lib'),
+    },
+  },
 })

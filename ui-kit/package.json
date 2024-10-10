@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    ".": {
+    "./lib": {
       "types": "./dist/lib/main.d.ts",
       "default": "./dist/main.js"
     },
-    "./mantine/core": {
+    "./lib/mantine/core": {
       "types": "./dist/lib/mantine/core.d.ts",
       "default": "./dist/mantine/core.js"
     }
@@ -24,12 +24,12 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
+    "@mantine/core": "^7.13.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
-    "@mantine/core": "^7.13.2",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
